@@ -3,7 +3,6 @@ import tkinter as tk
 from tkinter.font import Font
 
 class Board_config:
-
     def __init__(self):
         self.margin = 40    #top and left margin
         self.box_w = 50     #width of each box
@@ -27,32 +26,55 @@ class Board_config:
         for i in range(9):
             for j in range(9):
                 e = tk.Entry(self.root,justify='center',font = self.hv15)
-                curr_x = board.margin + i * (board.box_w_plus_space) 
-                curr_y = board.margin + j * (board.box_w_plus_space) 
+                curr_x = self.margin + i * (self.box_w_plus_space) 
+                curr_y = self.margin + j * (self.box_w_plus_space) 
                 e.place(
                         x = curr_x  ,y = curr_y ,
-                        width=board.box_w , height = board.box_w,
+                        width=self.box_w , height = self.box_w,
                     )
                 self.squares[(i,j)] = e
 
     def create_buttons(self):
         """Render the buttons in the window"""
-        self.btnmargin = 10
+        self.btn_top_margin = 20    # btn_top_margin
+        self.btn_height = 50        
+        self.btn_width = 100
+        self.btn_space = 40
 
+        #Create the clear button
+        clear_btn_left_margin = 100
         clearBtn = tk.Button(self.root , text = 'Clear')      
         clearBtn.place(
-                        x = 100  ,
-                        y =  board.margin + 9 * (board.box_w_plus_space) + self.btnmargin,
-                        width= 130 , height = 50,
+                        x = clear_btn_left_margin  ,
+                        y = self.margin + 9 * (self.box_w_plus_space) + self.btn_top_margin,
+                        width=  self.btn_width  , height = self.btn_height,
+                    )
+                
+        #Create the solve button
+        solve_btn_left_margin = clear_btn_left_margin + self.btn_width + self.btn_space
+        clearBtn = tk.Button(self.root , text = 'Solve')      
+        clearBtn.place(
+                        x = solve_btn_left_margin  ,
+                        y = self.margin + 9 * (self.box_w_plus_space) + self.btn_top_margin,
+                        width=  self.btn_width  , height = self.btn_height,
                     )
 
+        #Create the solve button
+        Quit_btn_left_margin = clear_btn_left_margin + 2*(self.btn_width + self.btn_space)
+        QuitBtn = tk.Button(self.root , text = 'Quit')      
+        QuitBtn.place(
+                        x = Quit_btn_left_margin  ,
+                        y = self.margin + 9 * (self.box_w_plus_space) + self.btn_top_margin,
+                        width=  self.btn_width  , height = self.btn_height,
+                    )
 
 if __name__ == "__main__":
 
-    #Prepare the window
-    board = Board_config()
-    root = board.create_root()
-    board.create_grid()
-    board.create_buttons()
+    #Instantiate the window
+    window = Board_config()
+
+    root = window.create_root()
+    window.create_grid()
+    window.create_buttons()
 
     root.mainloop()
