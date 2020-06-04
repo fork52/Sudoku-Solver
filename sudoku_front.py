@@ -23,15 +23,19 @@ class Board_config:
         """Render the grid in the window"""
         self.hv15 = Font(family="Helvetica", size=15)
         self.squares = {}
+        callback = root.register(self.only_digits)  # registers a Tcl to Python callback
         for i in range(9):
             for j in range(9):
                 e = tk.Entry(self.root,justify='center',font = self.hv15)
                 curr_x = self.margin + i * (self.box_w_plus_space) 
                 curr_y = self.margin + j * (self.box_w_plus_space) 
+                e.configure(validate="key", validatecommand=(callback, "%P")) 
+
                 e.place(
                         x = curr_x  ,y = curr_y ,
                         width=self.box_w , height = self.box_w,
                     )
+                # Store the entry object for further access
                 self.squares[(i,j)] = e
 
     def create_buttons(self):
@@ -43,7 +47,7 @@ class Board_config:
 
         #Create the clear button
         clear_btn_left_margin = 100
-        clearBtn = tk.Button(self.root , text = 'Clear')      
+        clearBtn = tk.Button(self.root , text = 'Clear',command = self.clear_boxes)      
         clearBtn.place(
                         x = clear_btn_left_margin  ,
                         y = self.margin + 9 * (self.box_w_plus_space) + self.btn_top_margin,
@@ -61,13 +65,24 @@ class Board_config:
 
         #Create the solve button
         Quit_btn_left_margin = clear_btn_left_margin + 2*(self.btn_width + self.btn_space)
-        QuitBtn = tk.Button(self.root , text = 'Quit')      
+        QuitBtn = tk.Button(self.root , text = 'Quit',command = self.root.quit)      
         QuitBtn.place(
                         x = Quit_btn_left_margin  ,
                         y = self.margin + 9 * (self.box_w_plus_space) + self.btn_top_margin,
                         width=  self.btn_width  , height = self.btn_height,
                     )
 
+    def clear_boxes(self):
+        "Action for the clear button. Clears the entire grid"
+        for i in range(9):
+            for j in range(9):
+                e = self.squares[(i,j)] #Get the entry object e
+                e.delete(first=0,last=2)
+
+    def only_digits(self,P):
+        ''' Allow only single non-zero digit or empty string for entries '''
+        return (P.isdigit() or P == "") and len(P)<=1 and P!='0'
+          
 if __name__ == "__main__":
 
     #Instantiate the window
