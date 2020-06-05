@@ -6,8 +6,9 @@ class Board_config:
     def __init__(self):
         self.margin = 40    #top and left margin
         self.box_w = 50     #width of each box
-        self.box_space = 5  #box_space
+        self.box_space = 2  #box_space
         self.box_w_plus_space = self.box_w + self.box_space
+        self.extra_space = 4
 
     def create_root(self):
         """Set up the window features for tkinter object"""
@@ -26,9 +27,15 @@ class Board_config:
         callback = root.register(self.only_digits)  # registers a Tcl to Python callback
         for i in range(9):
             for j in range(9):
-                e = tk.Entry(self.root,justify='center',font = self.hv15)
-                curr_x = self.margin + i * (self.box_w_plus_space) 
-                curr_y = self.margin + j * (self.box_w_plus_space) 
+                if ( (i//3) + (j//3) ) % 2 == 0:
+                    color = "#f2b6cb"
+                else: color = "#a2bede"
+                e = tk.Entry(self.root,justify='center',font = self.hv15,bg = color)
+
+                curr_x = self.margin + i * (self.box_w_plus_space) + (i//3) * self.extra_space
+                curr_y = self.margin + j * (self.box_w_plus_space) + (j//3) * self.extra_space
+
+
                 e.configure(validate="key", validatecommand=(callback, "%P")) 
 
                 e.place(
@@ -38,9 +45,10 @@ class Board_config:
                 # Store the entry object for further access
                 self.squares[(i,j)] = e
 
+
     def create_buttons(self):
         """Render the buttons in the window"""
-        self.btn_top_margin = 20    # btn_top_margin
+        self.btn_top_margin = 25    # btn_top_margin
         self.btn_height = 50        
         self.btn_width = 100
         self.btn_space = 40
