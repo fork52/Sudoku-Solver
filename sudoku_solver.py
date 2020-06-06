@@ -1,5 +1,4 @@
 
-
 puzzle1 = [
             [5,3,0,0,7,0,0,0,0],
             [6,0,0,1,9,5,0,0,0],
@@ -46,18 +45,23 @@ def is_solvable(puzzle,row,col,num):
                 return False
     return True
 
+
+isSolnFound = False
 def find_Soln(puzzle):
+    global isSolnFound
     for i in range(9):
         for j in range(9):
             if puzzle[i][j] == 0:
                 for no in range(1,10):
                     if is_solvable(puzzle,i,j,no):
                         puzzle[i][j] = no
+                        if isSolnFound : return
                         find_Soln(puzzle)
+                        if isSolnFound : return
                         puzzle[i][j] = 0
                 return
+    isSolnFound = True
     pprint(puzzle)
-    input('More?')
 
 if __name__ == "__main__":
     # print( is_solvable( puzzle , 0 ,2 , 1 ) )

@@ -1,6 +1,12 @@
 # from tkinter import Tk
 import tkinter as tk
 from tkinter.font import Font
+import pprint
+import time
+
+# TODO - Add animation
+# TODO - Add buttons for speed-up and speed-down
+# TODO - LOOK INTO MORE SOLVING ALGOS
 
 class Board_config:
     def __init__(self):
@@ -9,6 +15,19 @@ class Board_config:
         self.box_space = 2  #box_space
         self.box_w_plus_space = self.box_w + self.box_space
         self.extra_space = 4
+        self.isSolnFound = False
+
+        self.puzzle = [
+                        [5,3,0,0,7,0,0,0,0],
+                        [6,0,0,1,9,5,0,0,0],
+                        [0,9,8,0,0,0,0,6,0],
+                        [8,0,0,0,6,0,0,0,3],
+                        [4,0,0,8,0,3,0,0,1],
+                        [7,0,0,0,2,0,0,0,6],
+                        [0,6,0,0,0,0,2,8,0],
+                        [0,0,0,4,1,9,0,0,5],
+                        [0,0,0,0,8,0,0,7,9]
+        ]
 
     def create_root(self):
         """Set up the window features for tkinter object"""
@@ -45,6 +64,20 @@ class Board_config:
                 # Store the entry object for further access
                 self.squares[(i,j)] = e
 
+    def transfer_board(self):
+        "Transfer the puzzle-list to the UI"
+        for i in range(9):
+            for j in range(9):
+                e = self.squares[(i,j)]
+                e.delete(0  , 1)
+                if self.puzzle[j][i] != 0:
+                    e.insert( 0  ,  str(self.puzzle[j][i] ) )
+
+    def UpdateEntry(self,i,j):
+        e = self.squares[(i,j)]
+        e.delete(0  , 1)
+        if self.puzzle[j][i] != 0:
+            e.insert( 0  ,  str(self.puzzle[j][i]) )
 
     def create_buttons(self):
         """Render the buttons in the window"""
@@ -64,14 +97,15 @@ class Board_config:
                 
         #Create the solve button
         solve_btn_left_margin = clear_btn_left_margin + self.btn_width + self.btn_space
-        clearBtn = tk.Button(self.root , text = 'Solve')      
+        clearBtn = tk.Button(self.root , text = 'SOLVE',command = self.find_Soln)      
         clearBtn.place(
                         x = solve_btn_left_margin  ,
                         y = self.margin + 9 * (self.box_w_plus_space) + self.btn_top_margin,
                         width=  self.btn_width  , height = self.btn_height,
+
                     )
 
-        #Create the solve button
+        #Create the Quit button
         Quit_btn_left_margin = clear_btn_left_margin + 2*(self.btn_width + self.btn_space)
         QuitBtn = tk.Button(self.root , text = 'Quit',command = self.root.quit)      
         QuitBtn.place(
@@ -90,7 +124,46 @@ class Board_config:
     def only_digits(self,P):
         ''' Allow only single non-zero digit or empty string for entries '''
         return (P.isdigit() or P == "") and len(P)<=1 and P!='0'
-          
+
+    def is_solvable(self,row,col,num):
+        #check row
+        for no in self.puzzle[row]:
+            if no == num:
+                return False
+        
+        #check col
+        for r in range(9):
+            if self.puzzle[r][col] == num:
+                return False
+
+        #check box/square
+        box_r = ( row// 3 ) * 3
+        box_c = (col // 3 ) * 3
+
+        for i in range(box_r,box_r+3):
+            for j in range(box_c ,box_c+3):
+                if self.puzzle[i][j] == num:
+                    return False
+        return True
+
+    def find_Soln(self):
+        self.transfer_board()
+        for i in range(9):
+            for j in range(9):
+                if self.puzzle[i][j] == 0:
+                    for no in range(1,10):
+                        if self.is_solvable(i,j,no):
+                            self.puzzle[i][j] = no
+                            self.UpdateEntry(i,j)
+                            self.root.update()
+                            if self.isSolnFound : return
+                            self.find_Soln()
+                            if self.isSolnFound : return
+                            self.puzzle[i][j] = 0
+                    return
+        pprint.pprint(self.puzzle)
+        self.isSolnFound = True
+    
 if __name__ == "__main__":
 
     #Instantiate the window
@@ -100,4 +173,6 @@ if __name__ == "__main__":
     window.create_grid()
     window.create_buttons()
 
+
     root.mainloop()
+
