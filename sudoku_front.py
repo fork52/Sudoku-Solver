@@ -4,9 +4,11 @@ from tkinter.font import Font
 import pprint
 import time
 
-# TODO - Add animation
+
+# TODO - Write a function tp
 # TODO - Add buttons for speed-up and speed-down
 # TODO - LOOK INTO MORE SOLVING ALGOS
+# TODO - Add functionality to navigate using arrows
 
 class Board_config:
     def __init__(self):
@@ -15,8 +17,9 @@ class Board_config:
         self.box_space = 2  #box_space
         self.box_w_plus_space = self.box_w + self.box_space
         self.extra_space = 4
-        self.isSolnFound = False
 
+        # The puzzle variable
+        # puzzle[0] is the first row
         self.puzzle = [
                         [5,3,0,0,7,0,0,0,0],
                         [6,0,0,1,9,5,0,0,0],
@@ -33,7 +36,7 @@ class Board_config:
         """Set up the window features for tkinter object"""
         root = tk.Tk()
         root.title('Sudoku')
-        root.geometry('600x630+350+50') # widthXheight topx+topy
+        root.geometry('680x630+350+50') # widthXheight topx+topy
         root.resizable(False, False)
         root.configure(background='black')
         self.root = root
@@ -73,11 +76,24 @@ class Board_config:
                 if self.puzzle[j][i] != 0:
                     e.insert( 0  ,  str(self.puzzle[j][i] ) )
 
+    def update_variable_board(self):
+        '''Get the board status in the self.puzzle variable'''
+        for i in range(9):
+            for j in range(9):
+                e = self.squares[(i,j)]
+                no = e.get()
+                if len(no)== 0:     no = 0
+                else:            no = int( e.get() )
+                self.puzzle[j][i] = no
+        pprint.pprint(self.puzzle)
+
     def UpdateEntry(self,i,j):
+        #Update the entry/square at location (i,j)
         e = self.squares[(i,j)]
         e.delete(0  , 1)
         if self.puzzle[j][i] != 0:
             e.insert( 0  ,  str(self.puzzle[j][i]) )
+        e.update()
 
     def create_buttons(self):
         """Render the buttons in the window"""
@@ -97,7 +113,7 @@ class Board_config:
                 
         #Create the solve button
         solve_btn_left_margin = clear_btn_left_margin + self.btn_width + self.btn_space
-        clearBtn = tk.Button(self.root , text = 'SOLVE',command = self.find_Soln)      
+        clearBtn = tk.Button(self.root , text = 'SOLVE',command = self.visualize_soln)      
         clearBtn.place(
                         x = solve_btn_left_margin  ,
                         y = self.margin + 9 * (self.box_w_plus_space) + self.btn_top_margin,
@@ -107,10 +123,23 @@ class Board_config:
 
         #Create the Quit button
         Quit_btn_left_margin = clear_btn_left_margin + 2*(self.btn_width + self.btn_space)
-        QuitBtn = tk.Button(self.root , text = 'Quit',command = self.root.quit)      
+        QuitBtn = tk.Button(self.root , text = 'Quit',command =  self.root.quit)      
         QuitBtn.place(
                         x = Quit_btn_left_margin  ,
                         y = self.margin + 9 * (self.box_w_plus_space) + self.btn_top_margin,
+                        width=  self.btn_width  , height = self.btn_height,
+                    )
+        
+        #Create the Instant solve button
+        common_right_margin = 20
+        common_top_margin = 50
+        rBtns_left_margin =  self.margin + 9 * (self.box_w_plus_space) + common_right_margin
+        inter_btn_space = 20
+
+        InstantBtn = tk.Button(self.root , text = 'Instant Solve',command = self.update_variable_board) #self.root.quit)      
+        InstantBtn.place(
+                        x = rBtns_left_margin ,
+                        y = common_top_margin  ,
                         width=  self.btn_width  , height = self.btn_height,
                     )
 
@@ -146,7 +175,7 @@ class Board_config:
                     return False
         return True
 
-    def find_Soln(self):
+    def solve_sudoku_visualiser(self):
         self.transfer_board()
         for i in range(9):
             for j in range(9):
@@ -155,15 +184,20 @@ class Board_config:
                         if self.is_solvable(i,j,no):
                             self.puzzle[i][j] = no
                             self.UpdateEntry(i,j)
-                            self.root.update()
                             if self.isSolnFound : return
-                            self.find_Soln()
+                            self.solve_sudoku_visualiser()
                             if self.isSolnFound : return
                             self.puzzle[i][j] = 0
                     return
         pprint.pprint(self.puzzle)
         self.isSolnFound = True
     
+    def visualize_soln(self):
+        self.update_variable_board()
+        self.transfer_board()
+        self.isSolnFound = False
+        self.solve_sudoku_visualiser()
+
 if __name__ == "__main__":
 
     #Instantiate the window
@@ -173,6 +207,6 @@ if __name__ == "__main__":
     window.create_grid()
     window.create_buttons()
 
-
+    #Mainloop
     root.mainloop()
 
