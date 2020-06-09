@@ -85,7 +85,7 @@ class Board_config:
                 if len(no)== 0:     no = 0
                 else:            no = int( e.get() )
                 self.puzzle[j][i] = no
-        pprint.pprint(self.puzzle)
+        # pprint.pprint(self.puzzle)
 
     def UpdateEntry(self,i,j):
         #Update the entry/square at location (i,j)
@@ -136,7 +136,7 @@ class Board_config:
         rBtns_left_margin =  self.margin + 9 * (self.box_w_plus_space) + common_right_margin
         inter_btn_space = 20
 
-        InstantBtn = tk.Button(self.root , text = 'Instant Solve',command = self.update_variable_board) #self.root.quit)      
+        InstantBtn = tk.Button(self.root , text = 'Instant Solve',command = self.instant_soln) #self.root.quit)      
         InstantBtn.place(
                         x = rBtns_left_margin ,
                         y = common_top_margin  ,
@@ -175,7 +175,7 @@ class Board_config:
                     return False
         return True
 
-    def solve_sudoku_visualiser(self):
+    def solve_sudoku_visually(self):
         self.transfer_board()
         for i in range(9):
             for j in range(9):
@@ -185,18 +185,38 @@ class Board_config:
                             self.puzzle[i][j] = no
                             self.UpdateEntry(i,j)
                             if self.isSolnFound : return
-                            self.solve_sudoku_visualiser()
+                            self.solve_sudoku_visually()
                             if self.isSolnFound : return
                             self.puzzle[i][j] = 0
                     return
         pprint.pprint(self.puzzle)
         self.isSolnFound = True
-    
+
+    def solve_sudoku_instantly(self):
+        for i in range(9):
+            for j in range(9):
+                if self.puzzle[i][j] == 0:
+                    for no in range(1,10):
+                        if self.is_solvable(i,j,no):
+                            self.puzzle[i][j] = no
+                            if self.isSolnFound : return
+                            self.solve_sudoku_instantly()
+                            if self.isSolnFound : return
+                            self.puzzle[i][j] = 0
+                    return
+        self.isSolnFound = True
+
     def visualize_soln(self):
         self.update_variable_board()
         self.transfer_board()
         self.isSolnFound = False
-        self.solve_sudoku_visualiser()
+        self.solve_sudoku_visually()
+
+    def instant_soln(self):
+        self.update_variable_board()
+        self.isSolnFound = False
+        self.solve_sudoku_instantly()
+        self.transfer_board()
 
 if __name__ == "__main__":
 
