@@ -1,9 +1,10 @@
 # from tkinter import Tk
+from sudoku_utils import * 
 import tkinter as tk
 from tkinter.font import Font
 import pprint
 import time
-
+from tkinter import messagebox
 
 # TODO - Write a function tp
 # TODO - Add buttons for speed-up and speed-down
@@ -46,7 +47,7 @@ class Board_config:
         """Render the grid in the window"""
         self.hv15 = Font(family="Helvetica", size=15)
         self.squares = {}
-        callback = root.register(self.only_digits)  # registers a Tcl to Python callback
+        callback = root.register(only_digits)  # registers a Tcl to Python callback
         for i in range(9):
             for j in range(9):
                 if ( (i//3) + (j//3) ) % 2 == 0:
@@ -104,7 +105,7 @@ class Board_config:
 
         #Create the clear button
         clear_btn_left_margin = 100
-        clearBtn = tk.Button(self.root , text = 'Clear',command = self.clear_boxes)      
+        clearBtn = tk.Button(self.root , text = 'Clear',command = self.clear_board)      
         clearBtn.place(
                         x = clear_btn_left_margin  ,
                         y = self.margin + 9 * (self.box_w_plus_space) + self.btn_top_margin,
@@ -143,16 +144,12 @@ class Board_config:
                         width=  self.btn_width  , height = self.btn_height,
                     )
 
-    def clear_boxes(self):
+    def clear_board(self):
         "Action for the clear button. Clears the entire grid"
         for i in range(9):
             for j in range(9):
                 e = self.squares[(i,j)] #Get the entry object e
                 e.delete(first=0,last=2)
-
-    def only_digits(self,P):
-        ''' Allow only single non-zero digit or empty string for entries '''
-        return (P.isdigit() or P == "") and len(P)<=1 and P!='0'
 
     def is_solvable(self,row,col,num):
         #check row
@@ -208,15 +205,22 @@ class Board_config:
 
     def visualize_soln(self):
         self.update_variable_board()
-        self.transfer_board()
-        self.isSolnFound = False
-        self.solve_sudoku_visually()
+        if is_puzzle_valid(self.puzzle):
+            self.transfer_board()
+            self.isSolnFound = False
+            self.solve_sudoku_visually()
+        else:
+            messagebox.showerror("Error","Invalid Sudoku Puzzle.\nPlease enter valid Puzzle!")
 
     def instant_soln(self):
         self.update_variable_board()
-        self.isSolnFound = False
-        self.solve_sudoku_instantly()
-        self.transfer_board()
+        if is_puzzle_valid(self.puzzle):
+            self.isSolnFound = False
+            self.solve_sudoku_instantly()
+            self.transfer_board()
+        else:
+            messagebox.showerror("Error","Invalid Sudoku Puzzle.\nPlease enter valid Puzzle!")
+            
 
 if __name__ == "__main__":
 
