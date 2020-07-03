@@ -1,3 +1,4 @@
+#Utilities for the front end solver
 def only_digits(P):
     ''' Allow only single non-zero digit or empty string for entries '''
     return (P.isdigit() or P == "") and len(P)<=1 and P!='0'

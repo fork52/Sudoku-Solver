@@ -11,6 +11,17 @@ puzzle_difficult = [
             [0,0,0,0,0,0,0,9,0]
 ]
 
+hardest_sudoku = [
+    [8,0,0,0,0,0,0,0,0],
+    [0,0,3,6,0,0,0,0,0],
+    [0,7,0,0,9,0,2,0,0],
+    [0,5,0,0,0,7,0,0,0],
+    [0,0,0,0,4,5,7,0,0],
+    [0,0,0,1,0,0,0,3,0],
+    [0,0,1,0,0,0,0,6,8],
+    [0,0,8,5,0,0,0,1,0],
+    [0,9,0,0,0,0,4,0,0]]
+
 puzzle1 = [
             [5,3,0,0,7,0,0,0,0],
             [6,0,0,1,9,5,0,0,0],
@@ -57,24 +68,32 @@ def is_solvable(puzzle,row,col,num):
                 return False
     return True
 
+class basic_Backtracker:
+    def __init__(self):
+        pass
 
-isSolnFound = False
-def find_Soln(puzzle):
-    global isSolnFound
-    for i in range(9):
-        for j in range(9):
-            if puzzle[i][j] == 0:
-                for no in range(1,10):
-                    if is_solvable(puzzle,i,j,no):
-                        puzzle[i][j] = no
-                        if isSolnFound : return
-                        find_Soln(puzzle)
-                        if isSolnFound : return
-                        puzzle[i][j] = 0
-                return
-    isSolnFound = True
-    pprint(puzzle)
+    def solve_sudoku(self,puzzle):
+        self.isSolnFound = False
+        self.sudoku_soln = None
+        self.Backtracking(puzzle)
+
+    
+    def Backtracking(self,puzzle):
+        for i in range(9):
+            for j in range(9):
+                if puzzle[i][j] == 0:
+                    for no in range(1,10):
+                        if is_solvable(puzzle,i,j,no):
+                            puzzle[i][j] = no
+                            if self.isSolnFound : return
+                            self.Backtracking(puzzle)
+                            if self.isSolnFound : return
+                            puzzle[i][j] = 0
+                    return
+        self.isSolnFound = True
+        self.sudoku_soln = puzzle
 
 if __name__ == "__main__":
     # print( is_solvable( puzzle , 0 ,2 , 1 ) )
-    find_Soln(puzzle_difficult)
+    obj = basic_Backtracker()
+    obj.solve_sudoku(puzzle1)
