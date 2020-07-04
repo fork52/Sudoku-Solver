@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
     #Grand total of the time required
     total_time = 0
-    obj = basic_Backtracker() #You can change the type of of solver here
+    obj = basic_CSP() #You can change the type of of solver here
 
     i = 0
     for puzzle in puzzles:

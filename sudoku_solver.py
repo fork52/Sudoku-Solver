@@ -153,6 +153,7 @@ class basic_CSP:
             for col in range(9):
                 if puzzle[row][col] == 0:
                     var_domains[row][col] = self.find_domain(puzzle, row,col)
+                    if len( var_domains[row][col] ) == 0: return False
         return var_domains 
 
     def reduce_var_domains(self,puzzle:list,row:int , col:int ,var_domains:list):
@@ -190,16 +191,13 @@ class basic_CSP:
             for j in range(9):
                 if puzzle[i][j] == 0:
                     for no in var_domains[i][j]:
-
                         if is_consistent(puzzle,i,j,no):
 
                             puzzle[i][j] = no #Assign the no to the cell
 
-                            new_var_domains = deepcopy(var_domains)
-                            new_var_domains[i][j] = -1 # Mark it as assigned! 
-                            new_var_domains = self.reduce_var_domains(puzzle , i , j , new_var_domains)
+                            new_var_domains = self.get_puzzle_domains(puzzle)
                             
-                            # Recurse only if any of the domains don not lead to empty domains
+                            # Recurse only if all of the domains of un-assigned variables are non-empty 
                             if new_var_domains == False: pass
                             else: self.basic_CSP_solver(puzzle , new_var_domains)
                                 
