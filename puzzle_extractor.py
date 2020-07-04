@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from time import time
 from pprint import pprint
-from sudoku_solver import basic_Backtracker , basic_CSP
+from sudoku_solver import basic_Backtracker , basic_CSP ,basic_CSP_Initial_Domain
 
 def read_file(filename ,nrows=10):
     '''Converts problems.csv string to a puzzle which is a list of lists'''
@@ -31,7 +31,7 @@ def string_to_puzzle(puzzle_string):
 if __name__ == "__main__":
 
     #Load nrows sudoku puzzles
-    puzzles = read_file('problems.csv', nrows=10)
+    puzzles = read_file('problems.csv', nrows=100)
 
     #Grand total of the time required
     total_time = 0
@@ -44,7 +44,7 @@ if __name__ == "__main__":
         end = time()
         i += 1 
         print(f"Time taken for solving puzzle{i}: { round( abs(start - end) ,4 )}")
-        pprint(obj.sudoku_soln)
+        # pprint(obj.sudoku_soln)
         total_time += round( abs(start - end) ,4 )
     print(f"\nTotal time taken for solving all puzzles: {total_time}")
 
