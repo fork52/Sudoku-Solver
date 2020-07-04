@@ -20,6 +20,8 @@ class Board_config:
         self.box_w_plus_space = self.box_w + self.box_space
         self.extra_space = 4
 
+        self.algo_choice = tk.IntVar(root)
+
         # The puzzle variable
         # puzzle[0] is the first row
         self.puzzle = [
@@ -74,7 +76,7 @@ class Board_config:
         for i in range(9):
             for j in range(9):
                 e = self.squares[(i,j)]
-                e.delete(0  , 1)
+                e.delete(0  , 1) #clear the entry
                 if self.puzzle[j][i] != 0:
                     e.insert( 0  ,  str(self.puzzle[j][i] ) )
 
@@ -115,7 +117,7 @@ class Board_config:
                 
         #Create the solve button
         solve_btn_left_margin = clear_btn_left_margin + self.btn_width + self.btn_space
-        clearBtn = tk.Button(self.root , text = 'SOLVE',command = self.visualize_backtracking_soln)      
+        clearBtn = tk.Button(self.root , text = 'SOLVE',command = self.visualize_CP_soln)      
         clearBtn.place(
                         x = solve_btn_left_margin  ,
                         y = self.margin + 9 * (self.box_w_plus_space) + self.btn_top_margin,
@@ -185,7 +187,6 @@ class Board_config:
                     if is_consistent(self.puzzle,i,j,no):
 
                         self.puzzle[i][j] = no #Assign the no to the cell
-                        self.UpdateEntry(i,j)
 
                         new_var_domains = var_domains.copy()
                         new_var_domains[i*9+j] = -1 # it is assigned so no domain required 
@@ -194,14 +195,19 @@ class Board_config:
                         # Recurse only if all of the domains of un-assigned variables are non-empty 
                         if new_var_domains == False: pass
                         else: self.visual_CP_solver(new_var_domains)
-                            
-                        if self.isSolnFound : return
-                        # self.UpdateEntry(i,j)
-                        self.puzzle[i][j] = 0  # Un-assign the cell
+
+                        self.root.after(20)  # most appropriate place for this
+                        self.UpdateEntry(i,j)
+                        self.root.after(30)
                         
+                        if self.isSolnFound : return
+
+                        self.puzzle[i][j] = 0  # Un-assign the cell
+
                 return
+
             self.isSolnFound = True
-            pprint.pprint(self.puzzle)
+            # pprint.pprint(self.puzzle)
 
     def visualize_CP_soln(self):
         self.update_variable_board()
@@ -211,6 +217,7 @@ class Board_config:
             self.MRV_solver = CSP_with_MRV()
             var_domains = self.MRV_solver.get_puzzle_domains(self.puzzle)
             self.visual_CP_solver(var_domains)
+            self.transfer_board()
         else:
             messagebox.showerror("Error","Invalid Sudoku Puzzle.\nPlease enter valid Puzzle!")
 
