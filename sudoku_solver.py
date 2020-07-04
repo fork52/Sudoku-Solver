@@ -50,6 +50,108 @@ class basic_Backtracker:
         self.isSolnFound = True
         self.sudoku_soln = puzzle
 
+
+class basic_CSP_Initial_Domain:
+    '''Basic CSP solver with domain reduction'''
+    def __init__(self):
+        pass
+
+    def solve_sudoku(self,puzzle):
+        '''Wrapper for the basic_CSP_solver function.'''
+        self.isSolnFound = False
+        self.sudoku_soln = None
+        var_domains = self.get_puzzle_domains(puzzle)
+        self.basic_CSP_solver(puzzle ,var_domains)
+
+    def find_domain(self ,puzzle, row:int , col:int)->set:
+        '''Returns the domain of the single empty cell'''
+        domain = set( [ i for i in range(1,10)] )
+
+        #check row
+        for no in puzzle[row]:
+            if no != 0 and no in domain:
+                domain.remove(no)
+            
+        #check col
+        for r in range(9):
+            if puzzle[r][col] !=0 and  puzzle[r][col] in domain:
+                domain.remove(puzzle[r][col])
+                
+        #check box/square
+        box_r = ( row// 3 ) * 3
+        box_c = (col // 3 ) * 3
+        for i in range(box_r,box_r+3):
+            for j in range(box_c ,box_c+3):
+                if puzzle[i][j] != 0 and puzzle[i][j] in domain:
+                    domain.remove( puzzle[i][j] )
+        return domain
+
+    def get_puzzle_domains(self,puzzle:list):
+        # -1 indicates that the cell was a part of the original problem
+        var_domains = [ [-1 for i in range(9)] for j in range(9)]
+
+        for row in range(9):
+            for col in range(9):
+                if puzzle[row][col] == 0:
+                    var_domains[row][col] = self.find_domain(puzzle, row,col)
+        return var_domains 
+
+    def reduce_var_domains(self,puzzle:list,row:int , col:int ,var_domains:list):
+        no = puzzle[row][col]
+
+        for r in range(9):
+            if var_domains[r][col] != -1:
+                if row != r and no in var_domains[r][col]:
+                    var_domains[r][col].remove(no)
+                    if len(var_domains[r][col]) == 0:
+                        return False
+        
+        for c in range(9):
+            if var_domains[row][c] != -1:
+                if col != c and no in var_domains[row][c]:
+                    var_domains[row][c].remove(no)
+                    if len(var_domains[row][c]) == 0:
+                        return False
+        
+        box_r = ( row// 3 ) * 3
+        box_c = (col // 3 ) * 3
+        for r in range(box_r,box_r+3):
+            for c in range(box_c ,box_c+3):
+                if var_domains[r][c] != -1:
+                    if no in var_domains[r][c]:
+                        var_domains[r][c].remove( no )
+                        if len(var_domains[r][c]) == 0:
+                            return False
+
+        return var_domains
+
+        
+    def basic_CSP_solver(self,puzzle:list ,var_domains:list):
+        for i in range(9):
+            for j in range(9):
+                if puzzle[i][j] == 0:
+                    for no in var_domains[i][j]:
+
+                        if is_consistent(puzzle,i,j,no):
+
+                            puzzle[i][j] = no #Assign the no to the cell
+
+                            new_var_domains = deepcopy(var_domains)
+                            new_var_domains[i][j] = -1 # Mark it as assigned! 
+                            new_var_domains = self.reduce_var_domains(puzzle , i , j , new_var_domains)
+                            
+                            # Recurse only if any of the domains don not lead to empty domains
+                            if new_var_domains == False: pass
+                            else: self.basic_CSP_solver(puzzle , new_var_domains)
+                                
+                            if self.isSolnFound : return
+                            puzzle[i][j] = 0
+                            
+                    return
+        self.isSolnFound = True
+        self.sudoku_soln = puzzle
+        
+
 class basic_CSP:
     '''Basic CSP solver with domain reduction'''
     def __init__(self):
@@ -95,7 +197,7 @@ class basic_CSP:
                     var_domains[row][col] = self.find_domain(puzzle, row,col)
         return var_domains 
 
-    def reduce_var_domain(self,puzzle:list,row:int , col:int ,var_domains:list):
+    def reduce_var_domains(self,puzzle:list,row:int , col:int ,var_domains:list):
         no = puzzle[row][col]
 
         for r in range(9):
@@ -130,18 +232,23 @@ class basic_CSP:
             for j in range(9):
                 if puzzle[i][j] == 0:
                     for no in var_domains[i][j]:
+
                         if is_consistent(puzzle,i,j,no):
-                            puzzle[i][j] = no
+
+                            puzzle[i][j] = no #Assign the no to the cell
+
                             new_var_domains = deepcopy(var_domains)
-                            new_var_domains = self.reduce_var_domain(puzzle , i , j , new_var_domains)
-                            if new_var_domains != False:
-                                self.basic_CSP_solver(puzzle , new_var_domains)
+                            new_var_domains[i][j] = -1 # Mark it as assigned! 
+                            new_var_domains = self.reduce_var_domains(puzzle , i , j , new_var_domains)
+                            
+                            # Recurse only if any of the domains don not lead to empty domains
+                            if new_var_domains == False: pass
+                            else: self.basic_CSP_solver(puzzle , new_var_domains)
                                 
                             if self.isSolnFound : return
                             puzzle[i][j] = 0
                             
                     return
-
         self.isSolnFound = True
         self.sudoku_soln = puzzle
         
