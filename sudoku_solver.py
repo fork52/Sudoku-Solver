@@ -4,7 +4,7 @@ from typing import Iterable
 from copy import deepcopy
 
 def is_consistent(puzzle,row,col,num):
-    '''Checks alldifferent constraint for box,row and column.'''
+    '''Checks alldifferent constraint for box,row and column of the grid.'''
     #check row
     for no in puzzle[row]:
         if no == num:
@@ -111,7 +111,7 @@ class basic_CSP_Initial_Domain:
         self.sudoku_soln = puzzle
         
 class basic_CSP:
-    '''Basic CSP solver with domain reduction'''
+    '''Basic CSP solver with complete domain reduction'''
     def __init__(self):
         pass
 
@@ -213,7 +213,7 @@ class basic_CSP:
         self.sudoku_soln = puzzle
         
 class CSP_with_MRV:
-    '''Basic CSP solver with Minimum Remaining Value (MRV) Heuristic'''
+    '''CSP solver with Minimum Remaining Value (MRV) Heuristic for selecting next varaible to work on.'''
     def __init__(self):
         pass
 
@@ -333,5 +333,5 @@ class CSP_with_MRV:
 if __name__ == "__main__":
     pass
     obj = CSP_with_MRV()
-    obj.solve_sudoku(blog_puzzle)
+    obj.solve_sudoku(puzzle_difficult)
     pprint(obj.sudoku_soln)

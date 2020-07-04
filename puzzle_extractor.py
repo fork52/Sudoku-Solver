@@ -20,7 +20,6 @@ def read_file(filename ,nrows=10):
 
     return puzzle_list , puzzle_solns
 
-
 def string_to_puzzle(puzzle_string):
     '''Convert puzzle string to a 2d list'''
     res = [[j for j in range(9)] for i in range(9)]
@@ -32,9 +31,7 @@ def string_to_puzzle(puzzle_string):
         count += 1
     return res
 
-
 if __name__ == "__main__":
-
     #Load nrows sudoku puzzles
     puzzles , solns = read_file('problems.csv', nrows=100)
 
