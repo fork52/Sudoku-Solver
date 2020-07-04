@@ -273,10 +273,10 @@ class CSP_with_MRV:
         self.sudoku_soln = puzzle
 
 
-
 if __name__ == "__main__":
     obj = basic_CSP()
-    obj.get_puzzle_domains(puzzle1)
+    obj.solve_sudoku(puzzle1)
+    pprint(obj.sudoku_soln)
 
     # print( is_solvable( puzzle , 0 ,2 , 1 ) )
     # obj = basic_Backtracker()
