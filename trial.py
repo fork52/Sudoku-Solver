@@ -14,15 +14,19 @@
 from copy import copy
 
 if __name__ == "__main__":
-    l = [[1,2],[3,4] ]
+    # 2d
+    l = [ [ set([1,2]) , set([3,4]) ]  ,  [  set([5 ,6 ]) ,set([7,8]) ] ]
     k = l.copy()
 
-    l.append([0,0])
+    k[0][0] = k[0][0].copy()
+    k[0][0] = -1
+ 
+    print( l , k)
 
-    l[0] = 100
-    print(k , l)
+    # 1d
+    l = [ set([1,2]) , set([3,4])   ,  set([5 ,6 ]) ,set([7,8])  ]
+    k = l.copy()
 
-    # s1 =set ( [1,2] )
-    # s2 = s1.copy()
-    # s2.add(100)
-    # print(s1,s2)
+    k[0]= -1
+ 
+    print( l , k)

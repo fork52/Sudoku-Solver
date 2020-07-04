@@ -120,7 +120,7 @@ class basic_CSP:
         self.isSolnFound = False
         self.sudoku_soln = None
         var_domains = self.get_puzzle_domains(puzzle)
-        self.basic_CSP_solver(puzzle ,var_domains)
+        self.CSP_solver(puzzle ,var_domains)
 
     def find_domain(self ,puzzle, row:int , col:int)->set:
         '''Returns the domain of the single empty cell'''
@@ -147,59 +147,63 @@ class basic_CSP:
 
     def get_puzzle_domains(self,puzzle:list):
         # -1 indicates that the cell was a part of the original problem
-        var_domains = [ [-1 for i in range(9)] for j in range(9)]
+        var_domains = [ -1 for i in range(81)]
 
         for row in range(9):
             for col in range(9):
                 if puzzle[row][col] == 0:
-                    var_domains[row][col] = self.find_domain(puzzle, row,col)
-                    if len( var_domains[row][col] ) == 0: return False
+                    var_domains[row*9+col] = self.find_domain(puzzle, row,col)
+                    if len( var_domains[row*9+col] ) == 0: return False
         return var_domains 
 
     def reduce_var_domains(self,puzzle:list,row:int , col:int ,var_domains:list):
         no = puzzle[row][col]
 
         for r in range(9):
-            if var_domains[r][col] != -1:
-                if row != r and no in var_domains[r][col]:
-                    var_domains[r][col].remove(no)
-                    if len(var_domains[r][col]) == 0:
+            if var_domains[r*9+col] != -1:
+                if row != r and no in var_domains[r*9+col]:
+                    var_domains[r*9+col] = var_domains[r*9+col].copy()
+                    var_domains[r*9+col].remove(no)
+                    if len(var_domains[r*9+col]) == 0:
                         return False
         
         for c in range(9):
-            if var_domains[row][c] != -1:
-                if col != c and no in var_domains[row][c]:
-                    var_domains[row][c].remove(no)
-                    if len(var_domains[row][c]) == 0:
+            if var_domains[row*9+c] != -1:
+                if col != c and no in var_domains[row*9+c]:
+                    var_domains[row*9+c] = var_domains[row*9+c].copy()
+                    var_domains[row*9+c].remove(no)
+                    if len(var_domains[row*9+c]) == 0:
                         return False
         
         box_r = ( row// 3 ) * 3
         box_c = (col // 3 ) * 3
         for r in range(box_r,box_r+3):
             for c in range(box_c ,box_c+3):
-                if var_domains[r][c] != -1:
-                    if no in var_domains[r][c]:
-                        var_domains[r][c].remove( no )
-                        if len(var_domains[r][c]) == 0:
+                if var_domains[r*9+c] != -1:
+                    if no in var_domains[r*9+c]:
+                        var_domains[r*9+c] = var_domains[r*9+c].copy()
+                        var_domains[r*9+c].remove( no )
+                        if len(var_domains[r*9+c]) == 0:
                             return False
 
         return var_domains
-
-        
-    def basic_CSP_solver(self,puzzle:list ,var_domains:list):
+       
+    def CSP_solver(self,puzzle:list ,var_domains:list):
         for i in range(9):
             for j in range(9):
                 if puzzle[i][j] == 0:
-                    for no in var_domains[i][j]:
+                    for no in var_domains[i*9 + j]:
                         if is_consistent(puzzle,i,j,no):
 
                             puzzle[i][j] = no #Assign the no to the cell
 
-                            new_var_domains = self.get_puzzle_domains(puzzle)
+                            new_var_domains = var_domains.copy()
+                            new_var_domains[i*9+j] = -1 # it is assigned so domain required 
+                            new_var_domains = self.reduce_var_domains(puzzle,i,j,new_var_domains)
                             
                             # Recurse only if all of the domains of un-assigned variables are non-empty 
                             if new_var_domains == False: pass
-                            else: self.basic_CSP_solver(puzzle , new_var_domains)
+                            else: self.CSP_solver(puzzle , new_var_domains)
                                 
                             if self.isSolnFound : return
                             puzzle[i][j] = 0
