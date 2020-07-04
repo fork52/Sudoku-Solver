@@ -1,7 +1,6 @@
 from pprint import pprint 
 from sample_puzzles import *
 from typing import Iterable
-from copy import deepcopy
 
 def is_consistent(puzzle,row,col,num):
     '''Checks alldifferent constraint for box,row and column of the grid.'''

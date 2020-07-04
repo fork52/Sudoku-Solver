@@ -5,6 +5,7 @@ from tkinter.font import Font
 import pprint
 import time
 from tkinter import messagebox
+from sudoku_solver import CSP_with_MRV , is_consistent
 
 # TODO - Write a function tp
 # TODO - Add buttons for speed-up and speed-down
@@ -114,7 +115,7 @@ class Board_config:
                 
         #Create the solve button
         solve_btn_left_margin = clear_btn_left_margin + self.btn_width + self.btn_space
-        clearBtn = tk.Button(self.root , text = 'SOLVE',command = self.visualize_soln)      
+        clearBtn = tk.Button(self.root , text = 'SOLVE',command = self.visualize_backtracking_soln)      
         clearBtn.place(
                         x = solve_btn_left_margin  ,
                         y = self.margin + 9 * (self.box_w_plus_space) + self.btn_top_margin,
@@ -151,76 +152,80 @@ class Board_config:
                 e = self.squares[(i,j)] #Get the entry object e
                 e.delete(first=0,last=2)
 
-    def is_solvable(self,row,col,num):
-        #check row
-        for no in self.puzzle[row]:
-            if no == num:
-                return False
-        
-        #check col
-        for r in range(9):
-            if self.puzzle[r][col] == num:
-                return False
-
-        #check box/square
-        box_r = ( row// 3 ) * 3
-        box_c = (col // 3 ) * 3
-
-        for i in range(box_r,box_r+3):
-            for j in range(box_c ,box_c+3):
-                if self.puzzle[i][j] == num:
-                    return False
-        return True
-
-    def solve_sudoku_visually(self):
+    def visual_backtracker(self):
         self.transfer_board()
         for i in range(9):
             for j in range(9):
                 if self.puzzle[i][j] == 0:
                     for no in range(1,10):
-                        if self.is_solvable(i,j,no):
+                        if is_consistent(self.puzzle, i,j,no):
                             self.puzzle[i][j] = no
                             self.UpdateEntry(i,j)
                             if self.isSolnFound : return
-                            self.solve_sudoku_visually()
+                            self.visual_backtracker()
                             if self.isSolnFound : return
                             self.puzzle[i][j] = 0
                     return
-        pprint.pprint(self.puzzle)
+        # pprint.pprint(self.puzzle)
         self.isSolnFound = True
 
-    def solve_sudoku_instantly(self):
-        for i in range(9):
-            for j in range(9):
-                if self.puzzle[i][j] == 0:
-                    for no in range(1,10):
-                        if self.is_solvable(i,j,no):
-                            self.puzzle[i][j] = no
-                            if self.isSolnFound : return
-                            self.solve_sudoku_instantly()
-                            if self.isSolnFound : return
-                            self.puzzle[i][j] = 0
-                    return
-        self.isSolnFound = True
-
-    def visualize_soln(self):
+    def visualize_backtracking_soln(self):
         self.update_variable_board()
         if is_puzzle_valid(self.puzzle):
             self.transfer_board()
             self.isSolnFound = False
-            self.solve_sudoku_visually()
+            self.visual_backtracker()
+        else:
+            messagebox.showerror("Error","Invalid Sudoku Puzzle.\nPlease enter valid Puzzle!")
+
+    def visual_CP_solver(self,var_domains:list):
+            i ,j = self.MRV_solver.select_Unassigned_var(var_domains)
+            if i != -1: 
+                for no in var_domains[i*9 + j]:
+                    if is_consistent(self.puzzle,i,j,no):
+
+                        self.puzzle[i][j] = no #Assign the no to the cell
+                        self.UpdateEntry(i,j)
+
+                        new_var_domains = var_domains.copy()
+                        new_var_domains[i*9+j] = -1 # it is assigned so no domain required 
+                        new_var_domains = self.MRV_solver.reduce_var_domains(self.puzzle,i,j,new_var_domains)
+                        
+                        # Recurse only if all of the domains of un-assigned variables are non-empty 
+                        if new_var_domains == False: pass
+                        else: self.visual_CP_solver(new_var_domains)
+                            
+                        if self.isSolnFound : return
+                        # self.UpdateEntry(i,j)
+                        self.puzzle[i][j] = 0  # Un-assign the cell
+                        
+                return
+            self.isSolnFound = True
+            pprint.pprint(self.puzzle)
+
+    def visualize_CP_soln(self):
+        self.update_variable_board()
+        if is_puzzle_valid(self.puzzle):
+            self.transfer_board()
+            self.isSolnFound = False
+            self.MRV_solver = CSP_with_MRV()
+            var_domains = self.MRV_solver.get_puzzle_domains(self.puzzle)
+            self.visual_CP_solver(var_domains)
         else:
             messagebox.showerror("Error","Invalid Sudoku Puzzle.\nPlease enter valid Puzzle!")
 
     def instant_soln(self):
+        '''Instantly solve the board without visualization'''
         self.update_variable_board()
         if is_puzzle_valid(self.puzzle):
             self.isSolnFound = False
-            self.solve_sudoku_instantly()
-            self.transfer_board()
+            obj = CSP_with_MRV()   #Create an instance
+            obj.solve_sudoku(self.puzzle)  
+            self.puzzle = obj.sudoku_soln 
+            self.transfer_board() # Transer solution on the grid
         else:
             messagebox.showerror("Error","Invalid Sudoku Puzzle.\nPlease enter valid Puzzle!")
-            
+    
 
 if __name__ == "__main__":
 
@@ -234,3 +239,4 @@ if __name__ == "__main__":
     #Mainloop
     root.mainloop()
 
+    
