@@ -331,10 +331,7 @@ class CSP_with_MRV:
 
 
 if __name__ == "__main__":
+    pass
     obj = CSP_with_MRV()
     obj.solve_sudoku(blog_puzzle)
     pprint(obj.sudoku_soln)
-
-    # print( is_solvable( puzzle , 0 ,2 , 1 ) )
-    # obj = basic_Backtracker()
-    # obj.solve_sudoku(puzzle1)

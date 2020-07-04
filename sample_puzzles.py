@@ -1,4 +1,9 @@
 
+'''
+Some sample sudoku puzzles
+'''
+
+
 puzzle_difficult = [
             [0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0],
