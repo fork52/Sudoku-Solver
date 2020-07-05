@@ -2,7 +2,9 @@
 **Solving sudoku as a constraint satisfaction problem(CSP).** 
 
 [![MIT License][license-image]][license-url]
-[![pythin usage][py-img]][repo-url]
+[![python usage][py-img]][repo-url]
+[![Code size][code-img]][repo-url]
+
 
 
 ## Description
@@ -89,3 +91,4 @@ The repository is licensed under MIT License.
 [license-url]:https://github.com/fork52/Sudoku-Solver/blob/master/LICENSE
 [repo-url]:https://github.com/fork52/Sudoku-Solver
 [py-img]:https://img.shields.io/github/languages/top/fork52/Sudoku-Solver
+[code-img]:https://img.shields.io/github/languages/code-size/fork52/Sudoku-Solver?color=orange&label=Code%20Size
