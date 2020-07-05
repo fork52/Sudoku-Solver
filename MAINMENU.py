@@ -237,9 +237,9 @@ class Board_config:
                         if new_var_domains == False: pass
                         else: self.visual_CP_solver(new_var_domains)
 
-                        self.root.after(20)  # most appropriate place for this
+                        self.root.after(10)  # most appropriate place for this
                         self.UpdateEntry(i,j)
-                        self.root.after(30)
+                        self.root.after(20)
                         
                         if self.isSolnFound : return
 

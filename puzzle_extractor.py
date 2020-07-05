@@ -42,16 +42,18 @@ def string_to_puzzle(puzzle_string):
     return res
 
 if __name__ == "__main__":
-    #Load nrows sudoku puzzles
+    #Load 'nrows' number of sudoku sudoku puzzles
     puzzles , solns = read_file('data/problems.csv', nrows=10)
 
     #Grand total of the time required to solve all puzzles
     total_time = 0
 
     #You can change the type of of solver here.
-    # The solvers are essentially classes using different algos to solve sudokus
+    # The solvers are essentially classes using different algos to solve Sudoku puzzle
+    # 1) basic_Backtracker 2)basic_CSP 3)basic_CSP_Initial_Domain 4)CSP_with_MRV
     obj = CSP_with_MRV() 
 
+    #Code for testing the time taken by the chosen solver
     i = 0
     for puzzle,soln in zip( puzzles,solns):
         start = time()
