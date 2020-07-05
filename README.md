@@ -11,7 +11,7 @@ This repository is an exploration of various algorithms and heuristics which can
 </p>
 
 
-## Usage
+## General Usage
 
 Use the classes in sudoku_solver.py file to solve sudoku puzzles in the form of 2D lists in python. Currently, the CSP_with_MRV is the most efficient solver of all the classes I have implemented.
 
@@ -58,7 +58,7 @@ Use the classes in sudoku_solver.py file to solve sudoku puzzles in the form of 
 
 ## Future Work
 
-Will be experimenting with some other heuristics as I learn more and I'll be updating the code.
+Will be experimenting with some other heuristics as I learn more and I'll keep updating the code.
 
 
 ## License
