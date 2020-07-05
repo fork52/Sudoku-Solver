@@ -1,6 +1,10 @@
 # Sudoku Solver
 **Solving sudoku as a constraint satisfaction problem(CSP).** 
 
+[![MIT License][license-image]][license-url]
+[![pythin usage][py-img]][repo-url]
+
+
 ## Description
 This repository is an exploration of various algorithms and heuristics which can be used for solving the classic [Sudoku](https://en.wikipedia.org/wiki/Sudoku) puzzle in python. The [sudoku_solver.py](https://github.com/fork52/Sudoku-Solver/blob/master/sudoku_solver.py) has several classes each employing a different strategy for solving the sudkou problem. You can also enjoy the visualization by running the [MAINMENU.py](https://github.com/fork52/Sudoku-Solver/blob/master/MAINMENU.py) file. The GUI has been built using python's inbuilt tkinter library. You can enter your own Sudoku puzzle or load a random puzzle for solving.
 
@@ -81,4 +85,7 @@ The repository is licensed under MIT License.
 5. Create a new Pull Request
 
 <!-- Markdown link & img dfn's -->
-
+[license-image]:https://img.shields.io/github/license/fork52/Sudoku-Solver
+[license-url]:https://github.com/fork52/Sudoku-Solver/blob/master/LICENSE
+[repo-url]:https://github.com/fork52/Sudoku-Solver
+[py-img]:https://img.shields.io/github/languages/top/fork52/Sudoku-Solver
