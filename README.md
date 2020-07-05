@@ -10,11 +10,12 @@ This repository is an exploration of various algorithms and heuristics which can
 <img src="https://github.com/fork52/Sudoku-Solver/blob/master/readme_resources/Sudoku_demo.gif" width="70%" height="70%">
 </p>
 
+
 ## Usage
 
-You can use the classes in sudoku_solver.py file to solve sudoku puzzles in the form of 2D lists in python. Currently, the CSP_with_MRV is the most efficient solver of all the classes I have implemented.
+Use the classes in sudoku_solver.py file to solve sudoku puzzles in the form of 2D lists in python. Currently, the CSP_with_MRV is the most efficient solver of all the classes I have implemented.
 
-1. Create a Sudoku puzzle:
+1. Create a Sudoku puzzle with blanks marked by 0's:
 ```python
 >>> puzzle = [
 ...             [5,3,0,0,7,0,0,0,0],
@@ -29,7 +30,7 @@ You can use the classes in sudoku_solver.py file to solve sudoku puzzles in the 
 ... ]
 ```
 
-2. Import one of the sudoku-solver class and create its object. Call the solve_sudoku() method to solve the puzzle. The solution is stored in the object's `sudoku_soln` attribute.
+2. Import one of the sudoku-solver class and create its object. Call the solve_sudoku() method to solve the puzzle. The solution is stored in the object's `sudoku_soln` attribute. (Note that the pprint has only been used for formatting the list.)
  
 ```python
 >>> from sudoku_solver import CSP_with_MRV 
@@ -52,18 +53,16 @@ You can use the classes in sudoku_solver.py file to solve sudoku puzzles in the 
 
 ## Credits
 * The primary motivation for building this project came from the video [Python Sudoku Solver - Computerphile](https://youtu.be/G_UYXzGuqvM).
-* For improving the performance of the alorithm, I have been extemsively referring to this awesome book [Artificial Intelligence: A Modern Approach](http://aima.cs.berkeley.edu/3rd-ed/). Will be experimenting with some other heuristics as well as I learn more and updating the code.
+* For improving the performance of the algorithms, I have been extemsively referring to this awesome book [Artificial Intelligence: A Modern Approach](http://aima.cs.berkeley.edu/3rd-ed/). 
+* The pr
+
+## Future Work
+
+Will be experimenting with some other heuristics as I learn more and I'll be updating the code.
 
 
 ## License
 The repository is licensed under MIT License.
-
-
-
-
-
-
-
 
 
 <!-- Markdown link & img dfn's -->
