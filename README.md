@@ -20,7 +20,7 @@ The Contraint Propagation algorithm is a lot faster.
 
 ## Using the solvers
 
-Use the classes in sudoku_solver.py file to solve sudoku puzzles in the form of 2D lists in python. Currently, the CSP_with_MRV is the most efficient solver of all the classes I have implemented.
+Use the classes in sudoku_solver.py file to solve sudoku puzzles in the form of 2D lists in python. Currently, the `CSP_with_MRV` is the most efficient solver of all the classes I have implemented.
 
 1. Create a Sudoku puzzle with blanks marked by 0's:
 ```python
