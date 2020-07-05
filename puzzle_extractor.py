@@ -43,7 +43,7 @@ def string_to_puzzle(puzzle_string):
 
 if __name__ == "__main__":
     #Load nrows sudoku puzzles
-    puzzles , solns = read_file('Data/problems.csv', nrows=10)
+    puzzles , solns = read_file('data/problems.csv', nrows=10)
 
     #Grand total of the time required to solve all puzzles
     total_time = 0

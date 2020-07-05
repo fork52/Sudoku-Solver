@@ -185,7 +185,7 @@ class Board_config:
     def load_random_puzzle_command(self):
         """Command for the Random puzzle button"""
         self.clear_board()
-        self.puzzle = load_random_puzzle('Data/problems.csv')
+        self.puzzle = load_random_puzzle('data/problems.csv')
         self.transfer_board()
         
 

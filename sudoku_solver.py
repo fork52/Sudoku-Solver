@@ -1,8 +1,8 @@
 from pprint import pprint 
 from typing import Iterable
 
-def is_consistent(puzzle,row,col,num):
-    '''Checks alldifferent constraint for box,row and column of the grid.'''
+def is_consistent(puzzle:list,row:int,col:int,num:int):
+    '''Checks alldifferent constraint for box,row and column of the sudoku puzzle.'''
     #check row
     for no in puzzle[row]:
         if no == num:
@@ -49,7 +49,7 @@ class basic_Backtracker:
         self.sudoku_soln = puzzle
 
 class basic_CSP_Initial_Domain:
-    '''Basic CSP solver with domain reduction'''
+    '''Basic CSP solver with initial domain reduction only'''
     def __init__(self):
         pass
 
@@ -109,7 +109,7 @@ class basic_CSP_Initial_Domain:
         self.sudoku_soln = puzzle
         
 class basic_CSP:
-    '''Basic CSP solver with complete domain reduction'''
+    '''Basic CSP solver with complete constraint propagation'''
     def __init__(self):
         pass
 
@@ -211,7 +211,7 @@ class basic_CSP:
         self.sudoku_soln = puzzle
         
 class CSP_with_MRV:
-    '''CSP solver with Minimum Remaining Value (MRV) Heuristic for selecting next varaible to work on.'''
+    '''CSP solver with Minimum Remaining Value (MRV) Heuristic for selecting next varaible to process.'''
     def __init__(self):
         pass
 
