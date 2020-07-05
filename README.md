@@ -12,10 +12,10 @@ This repository is an exploration of various algorithms and heuristics which can
 
 ## Usage
 
-You can use the classes in sudoku_solver.py file to solve sudoku puzzles in the form of 2D lists in python. Currently, the CSP_with_MRV is the most efficient solver of all.
+You can use the classes in sudoku_solver.py file to solve sudoku puzzles in the form of 2D lists in python. Currently, the CSP_with_MRV is the most efficient solver of all the classes I have implemented.
 
 1. Create a Sudoku puzzle:
-```
+```python
 >>> puzzle = [
 ...             [5,3,0,0,7,0,0,0,0],
 ...             [6,0,0,1,9,5,0,0,0],
@@ -31,7 +31,7 @@ You can use the classes in sudoku_solver.py file to solve sudoku puzzles in the 
 
 2. Import one of the sudoku-solver class and create its object. Call the solve_sudoku() method to solve the puzzle. The solution is stored in the object's `sudoku_soln` attribute.
  
-```
+```python
 >>> from sudoku_solver import CSP_with_MRV 
 >>> from pprint import pprint
 >>> obj = CSP_with_MRV()
@@ -57,11 +57,6 @@ You can use the classes in sudoku_solver.py file to solve sudoku puzzles in the 
 
 ## License
 The repository is licensed under MIT License.
-
-
-
-
-
 
 
 
