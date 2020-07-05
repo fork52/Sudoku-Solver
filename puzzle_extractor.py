@@ -7,7 +7,7 @@ from random import randint
 
 
 def load_random_puzzle(filename):
-    '''Loads a random puzzle from the problems.csv file'''
+    '''Loads a random puzzle from the .csv file'''
     df = pd.read_csv(filename)  
     puzzle_index = randint(0,2999)
     puzzle_string = str( df.iat[puzzle_index,1] )
@@ -15,7 +15,7 @@ def load_random_puzzle(filename):
     return new_puzzle
 
 def read_file(filename ,nrows=10):
-    '''Converts problems.csv string to a puzzle which is a list of lists'''
+    '''Converts Data/problems.csv string to a puzzle which is a list of lists'''
     puzzle_list = []
     puzzle_solns = []
 
@@ -43,7 +43,7 @@ def string_to_puzzle(puzzle_string):
 
 if __name__ == "__main__":
     #Load nrows sudoku puzzles
-    puzzles , solns = read_file('problems.csv', nrows=10)
+    puzzles , solns = read_file('Data/problems.csv', nrows=10)
 
     #Grand total of the time required to solve all puzzles
     total_time = 0
