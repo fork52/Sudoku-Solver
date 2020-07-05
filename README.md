@@ -16,7 +16,7 @@ This repository is an exploration of various algorithms and heuristics which can
 4. Click on Instant Solve/ Visualize.
 
 WARNING: The Backtracking algorithm might take some time for certain problems since it is very naive.
-The Contraint Propagation is a lot faster.
+The Contraint Propagation algorithm is a lot faster.
 
 ## Using the solvers
 
@@ -37,7 +37,7 @@ Use the classes in sudoku_solver.py file to solve sudoku puzzles in the form of 
 ... ]
 ```
 
-2. Import one of the sudoku-solver class and create its object. Call the solve_sudoku() method to solve the puzzle. The solution is stored in the object's `sudoku_soln` attribute. (Note that the pprint has only been used for formatting the list.)
+2. Import one of the sudoku-solver class and create its object. Call the `solve_sudoku()` method to solve the puzzle. The solution is stored in the object's `sudoku_soln` attribute. (Note that the `pprint` has only been used for formatting the list.)
  
 ```python
 >>> from sudoku_solver import CSP_with_MRV 
