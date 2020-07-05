@@ -1,5 +1,4 @@
 from pprint import pprint 
-from sample_puzzles import *
 from typing import Iterable
 
 def is_consistent(puzzle,row,col,num):
@@ -331,6 +330,8 @@ class CSP_with_MRV:
 
 if __name__ == "__main__":
     pass
-    obj = CSP_with_MRV()
-    obj.solve_sudoku(puzzle_difficult)
-    pprint(obj.sudoku_soln)
+    
+    '''Using the objects of the above classes'''
+    # obj = CSP_with_MRV()
+    # obj.solve_sudoku(puzzle_d)
+    # pprint(obj.sudoku_soln)

@@ -1,11 +1,12 @@
 # from tkinter import Tk
-from sudoku_utils import * 
+from sudoku_utils import is_puzzle_valid , only_digits 
 import tkinter as tk
 from tkinter.font import Font
 import pprint
 import time
 from tkinter import messagebox
 from sudoku_solver import CSP_with_MRV , is_consistent
+from puzzle_extractor import load_random_puzzle
 
 # TODO - Write a function tp
 # TODO - Add buttons for speed-up and speed-down
@@ -20,30 +21,22 @@ class Board_config:
         self.box_w_plus_space = self.box_w + self.box_space
         self.extra_space = 4
 
-        self.algo_choice = tk.IntVar(root)
 
         # The puzzle variable
         # puzzle[0] is the first row
-        self.puzzle = [
-                        [5,3,0,0,7,0,0,0,0],
-                        [6,0,0,1,9,5,0,0,0],
-                        [0,9,8,0,0,0,0,6,0],
-                        [8,0,0,0,6,0,0,0,3],
-                        [4,0,0,8,0,3,0,0,1],
-                        [7,0,0,0,2,0,0,0,6],
-                        [0,6,0,0,0,0,2,8,0],
-                        [0,0,0,4,1,9,0,0,5],
-                        [0,0,0,0,8,0,0,7,9]
-        ]
+        self.puzzle = [ [ 0 for i in range(9) ] for j in range(9)]
+        self.original_puzzle = [ [ 0 for i in range(9) ] for j in range(9)]
 
     def create_root(self):
         """Set up the window features for tkinter object"""
         root = tk.Tk()
-        root.title('Sudoku')
-        root.geometry('680x630+350+50') # widthXheight topx+topy
+        root.title('Sudoku Solver')
+        root.geometry('700x630+350+50') # widthXheight topx+topy
         root.resizable(False, False)
         root.configure(background='black')
         self.root = root
+        self.algo_choice = tk.IntVar(root,value=1)
+
         return root
 
     def create_grid(self):
@@ -117,7 +110,7 @@ class Board_config:
                 
         #Create the solve button
         solve_btn_left_margin = clear_btn_left_margin + self.btn_width + self.btn_space
-        clearBtn = tk.Button(self.root , text = 'SOLVE',command = self.visualize_CP_soln)      
+        clearBtn = tk.Button(self.root , text = 'Visualize',command = self.visualize_solving)      
         clearBtn.place(
                         x = solve_btn_left_margin  ,
                         y = self.margin + 9 * (self.box_w_plus_space) + self.btn_top_margin,
@@ -133,13 +126,13 @@ class Board_config:
                         y = self.margin + 9 * (self.box_w_plus_space) + self.btn_top_margin,
                         width=  self.btn_width  , height = self.btn_height,
                     )
-        
-        #Create the Instant solve button
+                
+        #set some defaults for RHS buttons
         common_right_margin = 20
         common_top_margin = 50
         rBtns_left_margin =  self.margin + 9 * (self.box_w_plus_space) + common_right_margin
-        inter_btn_space = 20
 
+        #Create the Instant solve button
         InstantBtn = tk.Button(self.root , text = 'Instant Solve',command = self.instant_soln) #self.root.quit)      
         InstantBtn.place(
                         x = rBtns_left_margin ,
@@ -147,8 +140,57 @@ class Board_config:
                         width=  self.btn_width  , height = self.btn_height,
                     )
 
+        #Create the Reset puzzle button
+        ResetBtn = tk.Button(self.root , text = 'Reset Puzzle',command = self.reset_command)     
+        ResetBtn.place(
+                        x = rBtns_left_margin ,
+                        y = common_top_margin + 70  ,
+                        width=  self.btn_width  , height = self.btn_height,
+                    )
+
+        #Create the Random Puzzle Btn
+        RandomPuzzleBtn = tk.Button(self.root , text = 'Random Puzzle',command = self.load_random_puzzle_command)      
+        RandomPuzzleBtn.place(
+                        x = rBtns_left_margin ,
+                        y = common_top_margin + 140  ,
+                        width=  self.btn_width  , height = self.btn_height,
+                    )
+
+
+        #Create label for the algorithms
+        algorithms_label = tk.Label(self.root,text = 'Choose Algorithm:')
+        algorithms_label.place(
+                x = rBtns_left_margin ,
+                y = common_top_margin + 220  ,
+        )
+
+        
+
+        # Create the radiobuttons
+        backtracker = tk.Radiobutton( self.root, 
+                  text= 'Basic Backtracking',
+                  variable=self.algo_choice, 
+                  value = 1 
+                  )
+
+        backtracker.place(x = rBtns_left_margin, y=common_top_margin + 250)
+
+        CSP_solver = tk.Radiobutton( self.root, 
+            text= 'Constraint Propagation',
+            variable=self.algo_choice, 
+            value = 2
+            )
+        CSP_solver.place(x = rBtns_left_margin, y=common_top_margin + 280)
+
+    def load_random_puzzle_command(self):
+        """Command for the Random puzzle button"""
+        self.clear_board()
+        self.puzzle = load_random_puzzle('problems.csv')
+        self.transfer_board()
+        
+
     def clear_board(self):
-        "Action for the clear button. Clears the entire grid"
+        "Action for the clear button. Clears the entire grid on the UI only"
         for i in range(9):
             for j in range(9):
                 e = self.squares[(i,j)] #Get the entry object e
@@ -172,7 +214,6 @@ class Board_config:
         self.isSolnFound = True
 
     def visualize_backtracking_soln(self):
-        self.update_variable_board()
         if is_puzzle_valid(self.puzzle):
             self.transfer_board()
             self.isSolnFound = False
@@ -210,7 +251,6 @@ class Board_config:
             # pprint.pprint(self.puzzle)
 
     def visualize_CP_soln(self):
-        self.update_variable_board()
         if is_puzzle_valid(self.puzzle):
             self.transfer_board()
             self.isSolnFound = False
@@ -224,6 +264,7 @@ class Board_config:
     def instant_soln(self):
         '''Instantly solve the board without visualization'''
         self.update_variable_board()
+        self.original_puzzle = [ [ self.puzzle[i][j] for j in range(9)] for i in range(9)]
         if is_puzzle_valid(self.puzzle):
             self.isSolnFound = False
             obj = CSP_with_MRV()   #Create an instance
@@ -233,6 +274,20 @@ class Board_config:
         else:
             messagebox.showerror("Error","Invalid Sudoku Puzzle.\nPlease enter valid Puzzle!")
     
+    def visualize_solving(self):
+        '''Command for the solve button'''
+        self.update_variable_board()
+        self.original_puzzle = [ [ self.puzzle[i][j] for j in range(9)] for i in range(9)]
+        if self.algo_choice.get() == 1:
+            self.visualize_backtracking_soln()
+        elif self.algo_choice.get() == 2:
+            self.visualize_CP_soln()
+    
+    def reset_command(self):
+        '''Command for reset button'''
+        self.puzzle = [ [ self.original_puzzle[i][j] for j in range(9)] for i in range(9)]
+        self.clear_board()
+        self.transfer_board()
 
 if __name__ == "__main__":
 

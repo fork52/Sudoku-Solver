@@ -3,6 +3,16 @@ import numpy as np
 from time import time
 from pprint import pprint
 from sudoku_solver import basic_Backtracker , basic_CSP ,basic_CSP_Initial_Domain,CSP_with_MRV
+from random import randint
+
+
+def load_random_puzzle(filename):
+    '''Loads a random puzzle from the problems.csv file'''
+    df = pd.read_csv(filename)  
+    puzzle_index = randint(0,2999)
+    puzzle_string = str( df.iat[puzzle_index,1] )
+    new_puzzle = string_to_puzzle(puzzle_string) 
+    return new_puzzle
 
 def read_file(filename ,nrows=10):
     '''Converts problems.csv string to a puzzle which is a list of lists'''
@@ -11,7 +21,7 @@ def read_file(filename ,nrows=10):
 
     df = pd.read_csv(filename)
     for i in range(nrows):
-        index = int( df.iat[i,0] )
+        # index = int( df.iat[i,0] )
         puzzle_string = str( df.iat[i,1] )
         puzzle_soln_string = str( df.iat[i,2] )
 
@@ -33,11 +43,14 @@ def string_to_puzzle(puzzle_string):
 
 if __name__ == "__main__":
     #Load nrows sudoku puzzles
-    puzzles , solns = read_file('problems.csv', nrows=100)
+    puzzles , solns = read_file('problems.csv', nrows=10)
 
-    #Grand total of the time required
+    #Grand total of the time required to solve all puzzles
     total_time = 0
-    obj = CSP_with_MRV() #You can change the type of of solver here
+
+    #You can change the type of of solver here.
+    # The solvers are essentially classes using different algos to solve sudokus
+    obj = CSP_with_MRV() 
 
     i = 0
     for puzzle,soln in zip( puzzles,solns):
@@ -52,14 +65,9 @@ if __name__ == "__main__":
         else:
             print(f"  WRONG")
 
-
-        # pprint(obj.sudoku_soln)
         total_time += round( abs(start - end) ,4 )
     print(f"\nTotal time taken for solving all puzzles: {total_time}")
-
     
-# if __name__ == "__main__":
-#     from sample_puzzles import *
 
     
 
