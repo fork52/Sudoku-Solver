@@ -10,8 +10,15 @@ This repository is an exploration of various algorithms and heuristics which can
 <img src="https://github.com/fork52/Sudoku-Solver/blob/master/readme_resources/Sudoku_demo.gif" width="70%" height="70%">
 </p>
 
+1. Run the [MAINMENU.py](https://github.com/fork52/Sudoku-Solver/blob/master/MAINMENU.py) file.
+2. Choose your algorithm. Default is Backtracking.
+3. Enter your puzzle or load a random one from the dataset.
+4. Click on Instant Solve/ Visualize.
 
-## General Usage
+WARNING: The Backtracking algorithm might take some time for certain problems since it is very naive.
+The Contraint Propagation is a lot faster.
+
+## Using the solvers
 
 Use the classes in sudoku_solver.py file to solve sudoku puzzles in the form of 2D lists in python. Currently, the CSP_with_MRV is the most efficient solver of all the classes I have implemented.
 
