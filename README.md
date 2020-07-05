@@ -54,7 +54,7 @@ Use the classes in sudoku_solver.py file to solve sudoku puzzles in the form of 
 ## Credits
 * The primary motivation for building this project came from the video [Python Sudoku Solver - Computerphile](https://youtu.be/G_UYXzGuqvM).
 * For improving the performance of the algorithms, I have been extemsively referring to this awesome book [Artificial Intelligence: A Modern Approach](http://aima.cs.berkeley.edu/3rd-ed/). 
-* The pr
+* The [Data folder](https://github.com/fork52/Sudoku-Solver/tree/master/Data) contains a subset of the original dataset: [3 million Sudoku puzzles with ratings](https://www.kaggle.com/radcliffe/3-million-sudoku-puzzles-with-ratings). The puzzles are used in the GUI if you wish to have a random puzzle. They are also been used for measuring the performance of the algorithms in the [puzzle_extractor.py](https://github.com/fork52/Sudoku-Solver/blob/master/puzzle_extractor.py) file.
 
 ## Future Work
 
