@@ -1,6 +1,7 @@
 from time import time
 from pprint import pprint
-from sudoku_solver import basic_Backtracker , basic_CSP ,basic_CSP_Initial_Domain,CSP_with_MRV
+# from sudoku_solver import basic_Backtracker , basic_CSP ,basic_CSP_Initial_Domain,CSP_with_MRV
+from sudoku_solver import Basic_Backtracker , Backtracker_with_IDR , Backtracker_with_CP , CP_with_MRV
 from csv import reader
 from random import randint
 
@@ -48,15 +49,15 @@ def read_file(filename , nrows = 10):
 
 if __name__ == "__main__":
     #Load 'nrows' number of sudoku sudoku puzzles
-    puzzles , solns = read_file('data/problems.csv', nrows=100)
+    puzzles , solns = read_file('data/problems.csv', nrows=20)
 
     #Grand total of the time required to solve all puzzles
     total_time = 0
 
     #You can change the type of of solver here.
     # The solvers are essentially classes using different algos to solve Sudoku puzzle
-    # 1) basic_Backtracker 2)basic_CSP_Initial_Domain 3)basic_CSP 4)CSP_with_MRV
-    obj = CSP_with_MRV()
+    # 1) Basic_Backtracker 2)Backtracker_with_IDR 3)Backtracker_with_CP 4)CP_with_MRV
+    obj = CP_with_MRV()
 
     #Code for testing the time taken by the chosen solver
     i = 0
