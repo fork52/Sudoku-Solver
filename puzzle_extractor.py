@@ -76,7 +76,7 @@ def time_solver(obj):
     print("=" * 76)
     for k, v in data.items():
         print("{}\t :  {}".format(k, v))
-    print("\n{:.2f} ± {:.2f}\n".format(data['Mean'], data['Std']))
+    print("\n{:.2f} \u00b1 {:.2f}\n".format(data['Mean'], data['Std']))
 
 
 if __name__ == "__main__":
@@ -86,5 +86,5 @@ if __name__ == "__main__":
     # 1) Basic_Backtracker 2)Backtracker_with_IDR 3)Backtracker_with_CP 4)CP_with_MRV
 
     for solver in [CP_with_MRV]:
-        puzzles, solns = read_file('data/problems.csv', nrows=100)
+        puzzles, solns = read_file('Data/problems.csv', nrows=20)
         time_solver(solver())
