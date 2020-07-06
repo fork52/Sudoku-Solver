@@ -1,5 +1,5 @@
 # Sudoku Solver
-**Solving sudoku as a constraint satisfaction problem(CSP).** 
+**Solving sudoku as a constraint satisfaction problem (CSP).** 
 
 [![MIT License][license-image]][license-url]
 [![python usage][py-img]][repo-url]
@@ -26,7 +26,7 @@ The Contraint Propagation algorithm is a lot faster.
 
 ## Using the solvers
 
-Use the classes in sudoku_solver.py file to solve sudoku puzzles in the form of 2D lists in python. Currently, the `CSP_with_MRV` is the most efficient solver of all the classes I have implemented.
+Use the classes in sudoku_solver.py file to solve sudoku puzzles in the form of 2D lists in python. Currently, the `CP_with_MRV` is the most efficient solver of all the classes I have implemented.
 
 1. Create a Sudoku puzzle with blanks marked by 0's:
 ```python
@@ -46,9 +46,9 @@ Use the classes in sudoku_solver.py file to solve sudoku puzzles in the form of 
 2. Import one of the sudoku-solver class and create its object. Call the `solve_sudoku()` method to solve the puzzle. The solution is stored in the object's `sudoku_soln` attribute. (Note that the `pprint` has only been used for formatting the list.)
  
 ```python
->>> from sudoku_solver import CSP_with_MRV 
+>>> from sudoku_solver import CP_with_MRV 
 >>> from pprint import pprint
->>> obj = CSP_with_MRV()
+>>> obj = CP_with_MRV()
 >>> obj.solve_sudoku(puzzle)
 >>> pprint(obj.sudoku_soln)
 [[5, 3, 4, 6, 7, 8, 9, 1, 2],
