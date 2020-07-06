@@ -5,7 +5,7 @@ from tkinter.font import Font
 import pprint
 import time
 from tkinter import messagebox
-from sudoku_solver import CSP_with_MRV , is_consistent
+from sudoku_solver import CP_with_MRV ,Basic_Backtracker
 from puzzle_extractor import load_random_puzzle
 
 # TODO - Write a function tp
@@ -21,6 +21,7 @@ class Board_config:
         self.box_w_plus_space = self.box_w + self.box_space
         self.extra_space = 4
 
+        self.backtracking_solver = Basic_Backtracker()
 
         # The puzzle variable
         # puzzle[0] is the first row
@@ -202,7 +203,7 @@ class Board_config:
             for j in range(9):
                 if self.puzzle[i][j] == 0:
                     for no in range(1,10):
-                        if is_consistent(self.puzzle, i,j,no):
+                        if self.backtracking_solver.is_consistent(self.puzzle, i,j,no):
                             self.puzzle[i][j] = no
                             self.UpdateEntry(i,j)
                             if self.isSolnFound : return
@@ -222,10 +223,10 @@ class Board_config:
             messagebox.showerror("Error","Invalid Sudoku Puzzle.\nPlease enter valid Puzzle!")
 
     def visual_CP_solver(self,var_domains:list):
-            i ,j = self.MRV_solver.select_Unassigned_var(var_domains)
+            i ,j = self.MRV_solver.select_unassigned_var(var_domains)
             if i != -1: 
                 for no in var_domains[i*9 + j]:
-                    if is_consistent(self.puzzle,i,j,no):
+                    if self.MRV_solver.is_consistent(self.puzzle,i,j,no):
 
                         self.puzzle[i][j] = no #Assign the no to the cell
 
@@ -254,7 +255,7 @@ class Board_config:
         if is_puzzle_valid(self.puzzle):
             self.transfer_board()
             self.isSolnFound = False
-            self.MRV_solver = CSP_with_MRV()
+            self.MRV_solver = CP_with_MRV()
             var_domains = self.MRV_solver.get_puzzle_domains(self.puzzle)
             self.visual_CP_solver(var_domains)
             self.transfer_board()
@@ -267,7 +268,7 @@ class Board_config:
         self.original_puzzle = [ [ self.puzzle[i][j] for j in range(9)] for i in range(9)]
         if is_puzzle_valid(self.puzzle):
             self.isSolnFound = False
-            obj = CSP_with_MRV()   #Create an instance
+            obj = CP_with_MRV()   #Create an instance
             obj.solve_sudoku(self.puzzle)  
             self.puzzle = obj.sudoku_soln 
             self.transfer_board() # Transer solution on the grid
