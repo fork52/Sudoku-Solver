@@ -1,7 +1,7 @@
 from time import time
 from pprint import pprint
 # from sudoku_solver import basic_Backtracker , basic_CSP ,basic_CSP_Initial_Domain,CSP_with_MRV
-from sudoku_solver import Basic_Backtracker , Backtracker_with_IDR , Backtracker_with_CP , CP_with_MRV
+from sudoku_solvers import Basic_Backtracker , Backtracker_with_IDR , Backtracker_with_CP , CP_with_MRV
 from csv import reader
 from random import randint
 

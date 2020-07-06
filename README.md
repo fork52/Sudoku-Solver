@@ -8,7 +8,7 @@
 
 
 ## Description
-This repository is an exploration of various algorithms and heuristics which can be used for solving the classic [Sudoku](https://en.wikipedia.org/wiki/Sudoku) puzzle in python. The [sudoku_solver.py](https://github.com/fork52/Sudoku-Solver/blob/master/sudoku_solver.py) has several classes each employing a different strategy for solving the sudkou problem. You can also enjoy the visualization by running the [MAINMENU.py](https://github.com/fork52/Sudoku-Solver/blob/master/MAINMENU.py) file. The GUI has been built using python's inbuilt tkinter library. You can enter your own Sudoku puzzle or load a random puzzle for solving.
+This repository is an exploration of various algorithms and heuristics which can be used for solving the classic [Sudoku](https://en.wikipedia.org/wiki/Sudoku) puzzle in python. The [sudoku_solvers.py](https://github.com/fork52/Sudoku-Solver/blob/master/sudoku_solvers.py) has several classes each employing a different strategy for solving the sudkou problem. You can also enjoy the visualization by running the [MAINMENU.py](https://github.com/fork52/Sudoku-Solver/blob/master/MAINMENU.py) file. The GUI has been built using python's inbuilt tkinter library. You can enter your own Sudoku puzzle or load a random puzzle for solving.
 
 ## Visualization Demo
 
@@ -26,7 +26,7 @@ The Contraint Propagation algorithm is a lot faster.
 
 ## Using the solvers
 
-Use the classes in sudoku_solver.py file to solve sudoku puzzles in the form of 2D lists in python. Currently, the `CP_with_MRV` is the most efficient solver of all the classes I have implemented.
+Use the classes in sudoku_solvers.py file to solve sudoku puzzles in the form of 2D lists in python. Currently, the `CP_with_MRV` is the most efficient solver of all the classes I have implemented.
 
 1. Create a Sudoku puzzle with blanks marked by 0's:
 ```python
@@ -46,7 +46,7 @@ Use the classes in sudoku_solver.py file to solve sudoku puzzles in the form of 
 2. Import one of the sudoku-solver class and create its object. Call the `solve_sudoku()` method to solve the puzzle. The solution is stored in the object's `sudoku_soln` attribute. (Note that the `pprint` has only been used for formatting the list.)
  
 ```python
->>> from sudoku_solver import CP_with_MRV 
+>>> from sudoku_solvers import CP_with_MRV 
 >>> from pprint import pprint
 >>> obj = CP_with_MRV()
 >>> obj.solve_sudoku(puzzle)

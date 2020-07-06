@@ -5,10 +5,9 @@ from tkinter.font import Font
 import pprint
 import time
 from tkinter import messagebox
-from sudoku_solver import CP_with_MRV ,Basic_Backtracker
+from sudoku_solvers import CP_with_MRV ,Basic_Backtracker
 from puzzle_extractor import load_random_puzzle
 
-# TODO - Write a function tp
 # TODO - Add buttons for speed-up and speed-down
 # TODO - LOOK INTO MORE SOLVING ALGOS
 # TODO - Add functionality to navigate using arrows
