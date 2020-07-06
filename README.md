@@ -21,7 +21,7 @@ This repository is an exploration of various algorithms and heuristics which can
 3. Enter your puzzle or load a random one from the dataset.
 4. Click on Instant Solve/ Visualize.
 
-WARNING: The Backtracking algorithm might take some time for certain problems since it is very naive.
+`WARNING:` The Backtracking algorithm might take some time for certain problems since it is very naive.
 The Contraint Propagation algorithm is a lot faster.
 
 ## Using the solvers
@@ -67,11 +67,11 @@ Use the classes in sudoku_solvers.py file to solve sudoku puzzles in the form of
 ## Credits
 * The primary motivation for building this project came from the video [Python Sudoku Solver - Computerphile](https://youtu.be/G_UYXzGuqvM).
 * For improving the performance of the algorithms, I have been extemsively referring to this awesome book [Artificial Intelligence: A Modern Approach](http://aima.cs.berkeley.edu/3rd-ed/). 
-* The [Data folder](https://github.com/fork52/Sudoku-Solver/tree/master/Data) contains a subset of the original dataset: [3 million Sudoku puzzles with ratings](https://www.kaggle.com/radcliffe/3-million-sudoku-puzzles-with-ratings). The puzzles are used in the GUI if you wish to have a random puzzle. They are also been used for measuring the performance of the algorithms in the [puzzle_extractor.py](https://github.com/fork52/Sudoku-Solver/blob/master/puzzle_extractor.py) file.
+* The [Data folder](https://github.com/fork52/Sudoku-Solver/tree/master/Data) contains a subset of the original dataset: [3 million Sudoku puzzles with ratings](https://www.kaggle.com/radcliffe/3-million-sudoku-puzzles-with-ratings). The puzzles are used in the GUI if you wish to visualize the solving of a random puzzle. They are also been used for measuring the performance of the algorithms in the [puzzle_extractor.py](https://github.com/fork52/Sudoku-Solver/blob/master/puzzle_extractor.py) file.
 
 ## Future Work
 
-Will be experimenting with some other heuristics as I learn more and I'll keep updating the code.
+Will be experimenting with some other heuristics as I learn more and I'll keep committing the code to the repository.
 
 
 ## License
