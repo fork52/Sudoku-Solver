@@ -68,6 +68,7 @@ Use the classes in sudoku_solvers.py file to solve sudoku puzzles in the form of
 * The primary motivation for building this project came from the video [Python Sudoku Solver - Computerphile](https://youtu.be/G_UYXzGuqvM).
 * For improving the performance of the algorithms, I have been extemsively referring to this awesome book [Artificial Intelligence: A Modern Approach](http://aima.cs.berkeley.edu/3rd-ed/). 
 * The [Data folder](https://github.com/fork52/Sudoku-Solver/tree/master/Data) contains a subset of the original dataset: [3 million Sudoku puzzles with ratings](https://www.kaggle.com/radcliffe/3-million-sudoku-puzzles-with-ratings). The puzzles are used in the GUI if you wish to visualize the solving of a random puzzle. They are also been used for measuring the performance of the algorithms in the [puzzle_extractor.py](https://github.com/fork52/Sudoku-Solver/blob/master/puzzle_extractor.py) file.
+* Credits to [iotarepeat](https://github.com/iotarepeat) for suggesting and implementing bitarrays for saving domain information for the puzzle during constraint propagation which resulted in a significant performance improvement. His contributions to the report generation in puzzle_extractor.py are also noteworthy.
 
 ## Future Work
 
